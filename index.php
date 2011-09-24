@@ -1743,7 +1743,9 @@ function patch_show_tablerow($data, $num = 0, $tabletype = 0)
 
     if (auth_user()) {
       echo tablerowd(array('Local Download', (($data['localdl'] == 't') ? 'YES' : 'Not allowed')), null, $trd);
-      echo tablerowd(array('&nbsp;', (($other['localdl'] == 't') ? 'YES' : 'Not allowed')), $org, $trd);
+      if ($data['localdl'] != $other['localdl']) {
+	  echo tablerowd(array('&nbsp;', (($other['localdl'] == 't') ? 'YES' : 'Not allowed')), $org, $trd);
+      }
     }
 
     echo tablerowd(array('Download URL', make_link($data['dlurl'])), null, $trd);
