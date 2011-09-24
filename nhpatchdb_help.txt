@@ -1,0 +1,46 @@
+<h3>What is NetHack?</h3>
+<p>NetHack is a computer game. For more information, see <a href="http://en.wikipedia.org/wiki/NetHack">the NetHack article on Wikipedia</a>.
+<p>&nbsp;
+<h3>Patches? What are those?</h3>
+<p>In the context of the NetHack patch database, they're snippets of code
+that you apply to NetHack's source code to add new things or change behaviour.
+<p>&nbsp;
+<h3>Certain patch that really should be in there is missing from your database!?</h3>
+<p>Just <a href="?add">submit</a> it.
+<p>&nbsp;
+<h3>How do I patch NetHack?</h3>
+<p>In short:
+<ul>
+<li><a href="http://www.nethack.org/v343/download-src.html">Download NetHack's source code</a>.
+<li>Unpack the sources to a directory of your choice.
+<li>Make sure that you can compile just the vanilla NetHack, without any modifications. See the README
+    in the top level of the directory where you unpacked it, and then the instructions for your
+    platform in the sys -directory, eg. on linux you'd want to read sys/unix/Install.unx
+<li>Once you have compiled NetHack, create a copy of the directory. You'll most likely want
+    to keep a working copy of the unpatched source available...
+<li>Find the patch diff file you want, and save it on your computer.
+<li>In the working directory, do <pre>patch -p0 < <i>file</i></pre> where <i>file</i>
+    is the patch diff you saved. You might need to try other values for the -p
+    parameter; usually -p0 or -p1 work.
+<li>Try to compile the patched NetHack.
+</ul>
+<p>In practice, this is easiest on a unix-like operating system, such as Linux or *BSD.
+<p>For more help, check out the following links:
+<ul>
+<li><a href="http://nethackwiki.com/wiki/Compiling">Article on compiling on the NetHack Wiki</A>
+<li><a href="http://members.shaw.ca/rob.ellwood/HowToChangeNethack.html">How to change NetHack</a> by Rob Ellwood
+<li><a href="http://playstation2-linux.com/download/cfyc/HOWTO_compile_nethack.txt">How to compile NetHack on Playstation 2 Linux</a> by Ron Rogers Jr.
+<li><a href="http://groups.google.com/group/rec.games.roguelike.nethack/search?group=rec.games.roguelike.nethack&amp;q=compiling">rgrn search for compiling</a>
+</ul>
+<p>&nbsp;
+<h3>Links to NetHack stuff?</h3>
+<p><a href="http://www.google.com/search?q=NetHack">Google</a>.
+<p>oh, ok...
+<ul>
+<li><a href="http://www.nethack.org">NetHack Homepage</a>
+<li><a href="http://alt.org/nethack/">nethack.alt.org - Public NetHack server</a>
+<li><a href="http://www.steelypips.org/nethack/">steelypips.org - NetHack spoilers</a>
+<li><a href="news:rec.games.roguelike.nethack">rec.games.roguelike.nethack newsgroup</a>
+<li><a href="http://www.spod-central.org/~psmith/nh/rgrn-FAQ.txt">rec.games.roguelike.nethack FAQ</a>
+<li><a href="http://www.melankolia.net/nethack/nethack.guide.html">Absolute Beginner's Guide for NetHack</a>
+</ul>

@@ -1,0 +1,335 @@
+body {
+	color: black;
+	background-color: white;
+}
+
+a:link {
+	color: #0000f0;
+}
+a:visited {
+	color: #700070;
+}
+a:active {
+	color: #f00000;
+}
+
+.xlink {
+	cursor: pointer;
+}
+
+hr {
+	width: 50%;
+}
+
+.patchcount {
+	position: absolute;
+	top: 0px;
+	left: 5px;
+	text-align: right;
+	font-size: small;
+}
+
+.origpatch {
+	display: block;
+	background: #a0a0a0;
+	color: black;
+}
+
+.versnum {
+	position: absolute;
+	top: 0px;
+	right: 5px;
+	text-align: right;
+	font-size: small;
+	font-weight: normal;
+}
+
+.maintitle {
+	text-align: center;
+}
+
+.title {
+	text-align: center;
+}
+
+.patchlatest {
+	position: absolute;
+	width: 48%;
+	top: 8em;
+	left: 1%;
+	border-spacing: 0;
+}
+
+.newpatchnhver {
+	font-size: smaller;
+}
+
+.commentlatest {
+	position: absolute;
+	width: 48%;
+	top: 8em;
+	right: 1%;
+	border-spacing: 0;
+}
+
+.contactform,
+table.commentform {
+	background: #e0e0e0;
+	color: black;
+	border-spacing: 0;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
+.patchbrowse,
+.patchsearch,
+.patchpreview {
+	width: 95%;
+	border-spacing: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.commentact {
+	display: block;
+	text-align: right;
+}
+
+span.searchform {
+	background: #e0e0e0;
+	color: black;
+	display: block;
+	text-align: center;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em 0 1em 0;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
+.commentshow {
+	border-top: 1px solid #505050;
+	border-bottom: 1px solid #505050;
+	border-spacing: 0;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.commentscore {
+	border-bottom: 1px solid #505050;
+	border-top: 1px solid #505050;
+	text-align: center;
+	font-weight: bold;
+	font-size: large;
+	width: 5%;
+}
+
+.commentuser {
+	border-bottom: 1px solid #505050;
+	border-top: 1px solid #505050;
+	font-weight: bold;
+	width: 60%;
+}
+
+td.commenttext {
+	border-bottom: 1px solid #505050;
+	padding-top: 1em;
+}
+
+.commentdate {
+	border-bottom: 1px solid #505050;
+	border-top: 1px solid #505050;
+	text-align: right;
+}
+
+.oddcomment {
+	background: #e0e0e0;
+	color: black;
+}
+
+.evencomment {
+	background: #f5f5f5;
+	color: black;
+}
+
+.evencomment .oddqc {
+	border-left: 2px solid #d0d0d0;
+	background: #f5f5f5;
+	color: black;
+}
+
+.evencomment .evenqc {
+	border-left: 2px solid #d5d5d5;
+	background: #f0f0f0;
+	color: black;
+}
+
+.oddcomment .oddqc {
+	border-left: 2px solid #c0c0c0;
+	background: #e0e0e0;
+	color: black;
+}
+
+.oddcomment .evenqc {
+	border-left: 2px solid #c5c5c5;
+	background: #e5e5e5;
+	color: black;
+}
+
+.quotedcomment {
+	display: block;
+	width: 97%;
+	margin-left: auto;
+	margin-right: .2em;
+	padding: .25em;
+	font-size: smaller;
+}
+
+.quotednick {
+	font-weight: bold;
+	font-size: smaller;
+}
+
+table.patchform {
+	background: #e0e0ff;
+	color: black;
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+	padding: 1em;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
+.commentlatest .oddcomment:hover,
+.commentlatest .evencomment:hover {
+	background: #c0c0c0;
+	color: black;
+}
+
+.odd {
+	background: #e5e5ff;
+	color: black;
+}
+
+.even {
+	background: #f5f5ff;
+	color: black;
+}
+
+table.patchsearch .odd:hover,
+table.patchsearch .even:hover,
+table.patchbrowse .odd:hover,
+table.patchbrowse .even:hover,
+table.patchlatest .odd:hover,
+table.patchlatest .even:hover {
+	background: #c5c5ff;
+	color: black;
+}
+
+table.patchshow {
+	border-spacing: 0;
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+td.rowname {
+	width: 10%;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 1em;
+}
+
+p.error {
+	background: yellow;
+	color: red;
+	font-weight: bold;
+	padding: 2em;
+}
+
+p.notice {
+	background: white;
+	color: green;
+	font-weight: bold;
+	padding: 2em;
+}
+
+div.menu {
+	text-align: center;
+}
+
+table.pagecontrol {
+	background: #e0e0e0;
+	color: black;
+	border: 1px solid black;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+	margin-bottom: 1em;
+	margin-top: 1em;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
+td.pagefirst, td.pageprev {
+	text-align: right;
+}
+
+td.pagelast, td.pagenext {
+	text-align: left;
+}
+
+td.pagenum {
+	text-align: center;
+}
+
+span.submitupdate {
+	font-weight: bold;
+}
+
+span.ratingbar {
+	display: block;
+	background-color: red;
+	color: black;
+	position: relative;
+	line-height: 1em;
+	border: none;
+	width: 100%;
+}
+
+span.rating {
+	display: block;
+	height: 1.40em;
+	background-color: #50e050;
+	color: black;
+}
+
+span.ratingtext {
+	display: block;
+	position: absolute;
+	padding-top: .20em;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+
+span.notrated {
+	display: block;
+	background-color: #f0f0a0;
+	color: black;
+	height: 100%;
+	width: 100%;
+	font-size: smaller;
+}

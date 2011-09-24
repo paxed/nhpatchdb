@@ -1,0 +1,11 @@
+nhpatchdb - The NetHack Patch Database
+
+This is the source code for http://bilious.alt.org/
+
+
+Edit config.php, create postgresql database and give the user privileges,
+then create the tables as per nhpatchdb.sql
+
+-- 
+Pasi Kallinen
+paxed@alt.org
