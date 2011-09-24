@@ -19,7 +19,7 @@ function html_header($data = null)
 
   echo '<link rel="icon" href="'.location_url('bilious.png').'">';
 
-  echo '<link rel="stylesheet" type="text/css" media="screen" href="'.(($data['css']) ? $data['css'] : 'nhpatchdb.css').'">';
+  echo '<link rel="stylesheet" type="text/css" media="screen" href="'.(isset($data['css']) ? $data['css'] : 'nhpatchdb.css').'">';
 
   if (isset($data['js_focus']) || isset($data['js_limittext'])) {
     echo '<script type="text/javascript">';
@@ -246,17 +246,17 @@ function get_input_postdata($type, $name, $data = NULL, $defdata = NULL)
   switch ($type) {
   default:
   case 'text':
-    $data[$name] = str_htmlize_quotes($data[$name]);
+    $data[$name] = str_htmlize_quotes(isset($data[$name]) ? $data[$name] : '');
     $defs = ($defdata) ? query_str($defdata, ' ', 1, 0) : '';
     $ret = '<input type="'.$type.'" name="'.$name.'" '.$defs.' value="'.$data[$name].'">';
     break;
   case 'checkbox':
     $ret = '<input type="'.$type.'" name="'.$name.'" id="checkbox_'.$name.'"';
-    if (($data[$name] == 't') || ($data[$name] == 'on')) $ret .= ' checked';
+    if (isset($data[$name]) && (($data[$name] == 't') || ($data[$name] == 'on'))) $ret .= ' checked';
     $ret .= '>';
     break;
   case 'textarea':
-    $data[$name] = str_htmlize_quotes($data[$name]);
+    $data[$name] = str_htmlize_quotes(isset($data[$name]) ? $data[$name] : '');
     $defs = ($defdata) ? query_str($defdata, ' ', 1, 0) : '';
     $ret = '<textarea name="'.$name.'" '.$defs.'>'.$data[$name].'</textarea>';
     break;

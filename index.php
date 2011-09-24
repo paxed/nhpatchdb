@@ -4,7 +4,13 @@
   NetHack Patch Database
  */
 
-if (preg_match('/, http:.*, http:.*, http:/', $_SERVER['HTTP_REFERER'])) {
+/*
+error_reporting(E_ALL);
+ini_set('display_errors','On');
+*/
+
+
+if (isset($_SERVER['HTTP_REFERER']) && preg_match('/, http:.*, http:.*, http:/', $_SERVER['HTTP_REFERER'])) {
   /* some stupid spammer */
   header("HTTP/1.1 301 Moved Permanently");
   header('Location: http://127.0.0.1/');
@@ -40,8 +46,8 @@ $actionstrs = array(''=>'main',
 		    'patchupdate'=>'patchupdate'
 );
 
-$id = $_GET['id'];
-$act = $_GET['act'];
+$id = (isset($_GET['id']) ? $_GET['id'] : NULL);
+$act = (isset($_GET['act']) ? $_GET['act'] : NULL);
 
 if (isset($act) && isset($id) && preg_match('/^[0-9]+$/', $id)) {
   /* Redirect old-style url */
@@ -138,9 +144,9 @@ function mk_page_search($id)
   $title = 'Search patches';
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    mk_cookie('searchbar', $_POST['searchbar']);
-    mk_cookie('searchsort', $_POST['sort']);
-    mk_cookie('searchrev', $_POST['revsort']);
+    mk_cookie('searchbar', (isset($_POST['searchbar']) ? $_POST['searchbar'] : NULL));
+    mk_cookie('searchsort', (isset($_POST['sort']) ? $_POST['sort'] : NULL));
+    mk_cookie('searchrev', (isset($_POST['revsort']) ? $_POST['revsort'] : NULL));
   }
 
   page_header(array('title'=>$title, 'js_focus'=>1));
@@ -172,6 +178,8 @@ function mk_page_show($id)
 {
   $title = 'Show patch data';
 
+  $quote = NULL;
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_POST['preview'])) {
       if ($_POST['remembername']) {
@@ -187,7 +195,7 @@ function mk_page_show($id)
   page_header(array('title'=>$title,'js_limittext'=>1));
   echo '<h3 class="title">'.$title.'</h3>';
 
-  if (preg_match('/^[0-9]+$/', $_GET['quote'])) {
+  if (isset($_GET['quote']) && preg_match('/^[0-9]+$/', $_GET['quote'])) {
     $quotedcomment = get_comment_patchid($_GET['quote']);
     if ($quotedcomment['patch'] == $id) {
       $quote['text'] = "\n[quote:".$quotedcomment['username']."]\n".$quotedcomment['text']."\n[/quote]\n";
@@ -1077,7 +1085,7 @@ function patch_add_form($data, $edit = null)
 
   if ($edit)
     echo '<input type="hidden" name="added" value="'.date("Y-m-d H:i:s",strtotime($data['added'])).'">';
-  if ($data['patchref'])
+  if (isset($data['patchref']))
     echo '<input type="hidden" name="patchref" value="'.$data['patchref'].'">';
 
   if (auth_user() && isset($data['id']))
@@ -1095,10 +1103,10 @@ function patch_add_form($data, $edit = null)
   if (auth_user() && $edit)
     echo tablerowd(array('<label for="checkbox_localdl">Allow local download</label>', get_input_postdata('checkbox', 'localdl', $data)));
   if ((!$edit) || ($edit == 2))
-    echo tablerowd(array('Patch file','<input name="file" type="file" value="'.$data['file'].'" size="50">'));
+    echo tablerowd(array('Patch file','<input name="file" type="file" value="'.(isset($data['file']) ? $data['file'] : '').'" size="50">'));
   echo tablerowd(array('Patch Download URL',get_input_postdata('text', 'dlurl', $data, array('size'=>80, 'maxlength'=>255,'style'=>'width:90%;'))));
 
-  echo tablerowd(array('For', db_make_dropdown_table('variant', 'nhfor', (!$data['nhfor']) ? $active_nethack_ver : $data['nhfor'])));
+  echo tablerowd(array('For', db_make_dropdown_table('variant', 'nhfor', (isset($data['nhfor']) ? $data['nhfor'] : $active_nethack_ver))));
 
   if ($patch_descs_maxlen > 0)
     echo tablerowd(array('Short Description',get_input_postdata('text', 'descs', $data, array('size'=>80,'maxlength'=>$patch_descs_maxlen,'style'=>'width:90%;')),'required'));
@@ -1166,6 +1174,8 @@ function patch_orderby_str($data)
   $rev = 0;
   $addname = 1;
 
+  if (!isset($data['sort'])) $data['sort'] = NULL;
+
   switch ($data['sort']) {
   case 'id':
     $ret = ' ORDER BY id';
@@ -1200,7 +1210,7 @@ function patch_orderby_str($data)
     else unset($data['revsort']);
   }
 
-  if ($data['revsort']) $ret .= ' DESC';
+  if (isset($data['revsort'])) $ret .= ' DESC';
 
   if ($addname) $ret .= ', pname';
 
@@ -1213,7 +1223,7 @@ function patch_browse($show_queued = NULL)
   $sqlq = 'SELECT * FROM patches';
   if ($show_queued && auth_user()) {
     $sqlq .= ' WHERE queue=TRUE';
-    if (!$_GET['sort']) $_GET['sort'] = 'id';
+    if (!isset($_GET['sort'])) $_GET['sort'] = 'id';
   } else {
     $sqlq .= ' WHERE queue=FALSE';
   }
@@ -1221,8 +1231,8 @@ function patch_browse($show_queued = NULL)
   $sqlq .= patch_orderby_str($_GET);
 
   $npage = 1;
-  $pagehei = (!$_GET['pagehei']) ? $browse_page_height : $_GET['pagehei'];
-  $startpage = (!$_GET['page']) ? 0 : $_GET['page'];
+  $pagehei = (isset($_GET['pagehei']) ? $_GET['pagehei'] : $browse_page_height);
+  $startpage = (isset($_GET['page']) ? $_GET['page'] : 0);
   $showtabletype = 1;
 
   if (!preg_match('/^[0-9]+$/', $startpage)) $startpage = 0;
@@ -1354,8 +1364,8 @@ function comment_show($id)
     $numrows = num_patchcomments($id);
     $pagehei = $comment_page_height;
 
-    $startpage = (!$_GET['page']) ? 0 : $_GET['page'];
-    $revorder = $_GET['rev'];
+    $startpage = (isset($_GET['page']) ? $_GET['page'] : 0);
+    $revorder = (isset($_GET['rev']) ? $_GET['rev'] : NULL);
     if (!preg_match('/^[0-9]+$/', $startpage)) $startpage = 0;
     if ($startpage >= ($numrows/$pagehei)) $startpage = intval($numrows/$pagehei);
 
@@ -1388,7 +1398,8 @@ function comment_show($id)
 function patch_search_post($sdata)
 {
   global $max_search_results;
-  $s = trim($sdata['searchbar'].$sdata['author'].$sdata['name']);
+  $s = trim($sdata['searchbar'].(isset($sdata['author']) ? $sdata['author'] : '').
+	    (isset($sdata['name']) ? $sdata['name'] : ''));
   if (strlen($s) <= 0) return;
 
   if ($s && (strlen($s) > 2)) {
@@ -1410,13 +1421,13 @@ function patch_search_post($sdata)
       $slim .= ' )';
     }
 
-    if ($sdata['author']) {
+    if (isset($sdata['author'])) {
       if (strlen($slim) > 0) $slim .= ' AND ';
       $s = safe_str($sdata['author']);
       $slim .= "upper(author) LIKE upper('%".$s."%')";
     }
 
-    if ($sdata['name']) {
+    if (isset($sdata['name'])) {
       if (strlen($slim) > 0) $slim .= ' AND ';
       $s = safe_str($sdata['name']);
       $slim .= "upper(pname) LIKE upper('%".$s."%')";
@@ -1454,9 +1465,9 @@ function patch_search_post($sdata)
 
 function patch_search_form($data)
 {
-  if ($_COOKIE['searchbar'] && !isset($data['searchbar'])) $data['searchbar'] = $_COOKIE['searchbar'];
-  if ($_COOKIE['searchsort'] && !isset($data['sort'])) $data['sort'] = $_COOKIE['searchsort'];
-  if ($_COOKIE['searchrev'] && !isset($data['revsort'])) $data['revsort'] = $_COOKIE['searchrev'];
+  if (isset($_COOKIE['searchbar']) && !isset($data['searchbar'])) $data['searchbar'] = $_COOKIE['searchbar'];
+  if (isset($_COOKIE['searchsort']) && !isset($data['sort'])) $data['sort'] = $_COOKIE['searchsort'];
+  if (isset($_COOKIE['searchrev']) && !isset($data['revsort'])) $data['revsort'] = $_COOKIE['searchrev'];
 
   echo '<form name="searchform" method="POST" action="'.preg_replace('/&/','&amp;',phpself_querystr()).'">';
   echo '<span class="searchform">';
@@ -1495,7 +1506,7 @@ function patch_search_form($data)
 
 function comment_show_tableheader($data, $tabletype = 0)
 {
-  if ($data['tablename'])
+  if (isset($data['tablename']))
     echo '<tr><th>'.$data['tablename'].'</th></tr>';
 }
 
@@ -1558,7 +1569,7 @@ function sortable_tableheaderlink($name, $showname, $sortable=1)
 {
   if ($sortable) {
     parse_str($_SERVER['QUERY_STRING'], $admstr);
-    if ($admstr['sort'] == $name && !isset($admstr['revsort'])) $admstr['revsort'] = 1;
+    if (isset($admstr['sort']) && ($admstr['sort'] == $name) && !isset($admstr['revsort'])) $admstr['revsort'] = 1;
     else unset($admstr['revsort']);
     $admstr['sort'] = $name;
     echo '<th>'.make_link(preg_replace('/&/','&amp;',phpself_querystr($admstr)), $showname).'</th>';
