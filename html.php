@@ -332,8 +332,8 @@ function tablerowd($rowdata, $tddat=NULL, $trdat=NULL)
 function auth_user()
 {
   global $admin_username, $admin_passwd;
-  if (($_SERVER['PHP_AUTH_USER'] == $admin_username) &&
-      ($_SERVER['PHP_AUTH_PW'] == $admin_passwd))
+  if (isset($_SERVER['PHP_AUTH_USER']) && ($_SERVER['PHP_AUTH_USER'] == $admin_username) &&
+      isset($_SERVER['PHP_AUTH_PW']) && ($_SERVER['PHP_AUTH_PW'] == $admin_passwd))
     return 1;
   else return 0;
 }

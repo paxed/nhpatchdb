@@ -6,6 +6,20 @@ This is the source code for http://bilious.alt.org/
 Edit config.php, create postgresql database and give the user privileges,
 then create the tables as per nhpatchdb.sql
 
+
+To add the user to postgres and add the database, do the following commands:
+(Replace FOOUSER and PASSWDBAR with the user and password you will
+set in config.php)
+
+su - postgres
+psql template1
+create user FOOUSER with password 'PASSWDBAR';
+create database nhpatchdb;
+grant all privileges on database nhpatchdb to FOOUSER;
+\q
+
+
+
 -- 
 Pasi Kallinen
 paxed@alt.org
