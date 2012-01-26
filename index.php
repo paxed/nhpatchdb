@@ -157,6 +157,8 @@ function mk_page_search($id)
   patch_search_post($data);
   echo '<p>';
   patch_search_form($data);
+  echo '<p>';
+  visited_patches();
   html_footer();
 }
 
@@ -192,6 +194,16 @@ function mk_page_show($id)
 	mk_cookie('remembername');
       }
     }
+  }
+
+  if (!($_SERVER['REQUEST_METHOD'] == 'POST') && isset($id) && preg_match('/^[0-9]+$/', $id)) {
+      if (isset($_COOKIE['viewedpatches'])) {
+	  $viewed = $_COOKIE['viewedpatches'];
+	  $viewedarr = explode(",", $viewed);
+      }
+      $viewedarr[] = $id;
+      $viewedarr = array_slice(array_unique($viewedarr), -5);
+      mk_cookie('viewedpatches', implode(",", $viewedarr));
   }
 
   page_header(array('title'=>$title,'js_limittext'=>1));
@@ -1125,6 +1137,49 @@ function patch_add_form($data, $edit = null)
   echo '</table>';
   echo '</form>';
 }
+
+function visited_patches()
+{
+    if (isset($_COOKIE['viewedpatches'])) {
+	$viewed = $_COOKIE['viewedpatches'];
+    } else return;
+
+    if (!(preg_match('/^([0-9]+,)*[0-9]+$/', $viewed))) {
+	mk_cookie('viewedpatches', NULL);
+	return;
+    }
+
+    $sql = 'SELECT * FROM patches WHERE queue=FALSE AND id IN ('.$viewed.')';
+
+    $viewedsplit = explode(",", $viewed);
+
+    $connection = db_connect();
+    $myresult = db_query($connection, $sql);
+    $numrows = db_numrows($myresult);
+    $showtabletype = 2;
+
+    if ($numrows > 0) {
+
+	$data_arr = array();
+	for ($tmpi = 0; $tmpi < $numrows; $tmpi++) {
+	    $data = db_get_rowdata($myresult, $tmpi);
+	    $data_arr[$data['id']] = $data;
+	}
+
+	echo '<table class="patchviewed">';
+	$data = array('tablename'=>'Recently viewed patches') + db_get_rowdata($myresult, 0);
+	patch_show_tableheader($data, $showtabletype);
+	for ($x = count($viewedsplit)-1; $x > -1; $x--) {
+	    if (isset($data_arr[$viewedsplit[$x]])) {
+		$data = $data_arr[$viewedsplit[$x]];
+		patch_show_tablerow($data, $x, $showtabletype);
+	    }
+	}
+	echo '</table>';
+    }
+    db_close($connection);
+}
+
 
 function newest_patches()
 {

@@ -52,6 +52,11 @@ hr {
 	text-align: center;
 }
 
+.patchviewed {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .patchlatest {
 	position: absolute;
 	width: 48%;
@@ -226,6 +231,8 @@ table.patchform {
 	color: black;
 }
 
+table.patchviewed .odd:hover,
+table.patchviewed .even:hover,
 table.patchsearch .odd:hover,
 table.patchsearch .even:hover,
 table.patchbrowse .odd:hover,
