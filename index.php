@@ -176,7 +176,9 @@ function mk_page_random($id)
 
 function mk_page_show($id)
 {
-  $title = 'Show patch data';
+  $title = str_htmlize_quotes(patch_get_title($id));
+
+  if (!isset($title)) $title = 'Show patch data';
 
   $quote = NULL;
 
@@ -1274,6 +1276,27 @@ function patch_rating($id)
     db_free_result($tulos);
   }
   return mb_substr($ret,0,3);
+}
+
+function patch_get_title($id)
+{
+  $ret = NULL;
+  if (isset($id) && preg_match('/^[0-9]+$/',$id)) {
+    $sql = 'SELECT pname FROM patches WHERE id='.$id;
+
+    if (!auth_user())
+      $sql .= ' AND queue=FALSE';
+
+    $connection = db_connect();
+    $myresult = db_query($connection, $sql);
+    $numrows = db_numrows($myresult);
+    if ($numrows > 0) {
+	$data = db_get_rowdata($myresult, 0);
+	$ret = $data['pname'];
+    }
+    db_close($connection);
+  }
+  return $ret;
 }
 
 function patch_show($id, $commentpostdata = NULL)
