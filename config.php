@@ -2,7 +2,7 @@
 
 /* Configurable variables */
 
-$nhpatchdb_version	= 'v0.26';
+$nhpatchdb_version	= 'v0.27';
 
 $admin_username		= 'CHANGEME';
 $admin_passwd		= 'CHANGEME';

@@ -101,7 +101,7 @@ function mk_page_main($id)
 function mk_page_add($id)
 {
   $title = 'Add a patch';
-  page_header(array('title'=>$title));
+  page_header(array('title'=>$title, 'metadesc'=>'Add a patch to the NetHack Patch Database.'));
   echo '<h3 class="title">'.$title.'</h3>';
   if ($_SERVER['REQUEST_METHOD'] == 'POST') patch_add_post($_POST);
   patch_add_form($_POST);
@@ -121,7 +121,7 @@ function mk_page_queued($id)
 function mk_page_browse($id)
 {
   $title = 'Browse patches';
-  page_header(array('title'=>$title));
+  page_header(array('title'=>$title, 'metadesc'=>'Browse patches in the NetHack Patch Database.'));
   echo '<h3 class="title">'.$title.'</h3>';
   patch_browse();
   html_footer();
@@ -149,7 +149,7 @@ function mk_page_search($id)
     mk_cookie('searchrev', (isset($_POST['revsort']) ? $_POST['revsort'] : NULL));
   }
 
-  page_header(array('title'=>$title, 'js_focus'=>1));
+  page_header(array('title'=>$title, 'js_focus'=>1, 'metadesc'=>'Search patches in the NetHack Patch Database.'));
   echo '<h3 class="title">'.$title.'</h3>';
   if ($_SERVER['REQUEST_METHOD'] == 'POST') $data = $_POST;
   else if (isset($_GET['searchbar'])) $data = $_GET;
@@ -178,7 +178,9 @@ function mk_page_random($id)
 
 function mk_page_show($id)
 {
-  $title = str_htmlize_quotes(patch_get_title($id));
+    $mindata = patch_get_mindata($id);
+    $title = str_htmlize_quotes($mindata['pname']);
+    $metadesc = str_htmlize_quotes($mindata['descs']);
 
   if (!isset($title)) $title = 'Show patch data';
 
@@ -206,7 +208,7 @@ function mk_page_show($id)
       mk_cookie('viewedpatches', implode(",", $viewedarr));
   }
 
-  page_header(array('title'=>$title,'js_limittext'=>1));
+  page_header(array('title'=>$title,'js_limittext'=>1, 'metadesc'=>$metadesc));
   echo '<h3 class="title">'.$title.'</h3>';
 
   if (isset($_GET['quote']) && preg_match('/^[0-9]+$/', $_GET['quote'])) {
@@ -276,8 +278,10 @@ function mk_page_patchdel($id)
 
 function mk_page_update($id) /* user submits an update to another patch */
 {
+    $mindata = patch_get_mindata($id);
+    $metadesc = str_htmlize_quotes($mindata['title']);
   $title = 'Submit an update';
-  page_header(array('title'=>$title));
+  page_header(array('title'=>$title, 'metadesc'=>'Submit an update to patch "'.$metadesc.'"'));
   echo '<h3 class="title">'.$title.'</h3>';
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     patch_update_insert($_POST, $id);
@@ -376,7 +380,7 @@ function main_screen($login=0)
   if ($login)
     page_header(array('need_id'=>1));
   else
-    page_header();
+      page_header(array('metadesc'=>'Browse and comment patches to NetHack, or add your own to the database.'));
   newest_patches();
   newest_comments();
   html_footer();
@@ -1333,11 +1337,11 @@ function patch_rating($id)
   return mb_substr($ret,0,3);
 }
 
-function patch_get_title($id)
+function patch_get_mindata($id)
 {
   $ret = NULL;
   if (isset($id) && preg_match('/^[0-9]+$/',$id)) {
-    $sql = 'SELECT pname FROM patches WHERE id='.$id;
+    $sql = 'SELECT pname,descs FROM patches WHERE id='.$id;
 
     if (!auth_user())
       $sql .= ' AND queue=FALSE';
@@ -1347,7 +1351,7 @@ function patch_get_title($id)
     $numrows = db_numrows($myresult);
     if ($numrows > 0) {
 	$data = db_get_rowdata($myresult, 0);
-	$ret = $data['pname'];
+	$ret = $data;
     }
     db_close($connection);
   }

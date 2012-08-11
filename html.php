@@ -39,6 +39,10 @@ function html_header($data = null)
     echo '</script>';
   }
 
+  if (isset($data['metadesc'])) {
+      print '<meta name="description" content="'.$data['metadesc'].'" />';
+  }
+
   echo '</head><body'.((isset($data['js_focus'])) ? ' onLoad="sf()"' : '').'>';
 }
 
