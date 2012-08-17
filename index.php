@@ -154,7 +154,7 @@ function mk_page_search($id)
   if ($_SERVER['REQUEST_METHOD'] == 'POST') $data = $_POST;
   else if (isset($_GET['searchbar'])) $data = $_GET;
   else $data = NULL;
-  patch_search_post($data);
+  $data['numrows'] = patch_search_post($data);
   echo '<p>';
   patch_search_form($data);
   echo '<p>';
@@ -1482,7 +1482,7 @@ function patch_search_post($sdata)
   global $max_search_results;
   $s = trim($sdata['searchbar'].(isset($sdata['author']) ? $sdata['author'] : '').
 	    (isset($sdata['name']) ? $sdata['name'] : ''));
-  if (strlen($s) <= 0) return;
+  if (strlen($s) <= 0) return 0;
 
   if ($s && (strlen($s) > 2)) {
     $maxshow = $max_search_results;
@@ -1530,6 +1530,7 @@ function patch_search_post($sdata)
 
     if ($numrows <= 0) {
       echoid('No results.');
+      return 0;
     } else {
       echo '<table class="patchsearch">';
       patch_show_tableheader(db_get_rowdata($myresult, 0), $showtabletype);
@@ -1543,6 +1544,7 @@ function patch_search_post($sdata)
     }
     db_close($connection);
   } else echoid('Search string must be at least 3 chars long.');
+  return $numrows;
 }
 
 function patch_search_form($data)
@@ -1580,6 +1582,16 @@ function patch_search_form($data)
 		    $data['sort']);
 
   echo '<label>'.get_input_postdata('checkbox','revsort', $data).'Reversed</label>';
+
+  if (isset($data['numrows']) && ($data['numrows'] > 0)) {
+      print ' &nbsp; <a href="?search&searchbar='.$data['searchbar'];
+      if (isset($data['sort']) && $data['sort'] != 'name')
+	  print '&sort='.$data['sort'];
+      if (isset($data['revsort']))
+	  print '&revsort=1';
+      print '">permlink</a>';
+  }
+
   echo '</span>';
   echo '</form>';
 }
