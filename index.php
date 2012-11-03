@@ -22,6 +22,8 @@ include_once 'config.php';
 include_once 'html.php';
 include_once 'db.php';
 
+date_default_timezone_set($default_timezone);
+
 $actionstrs = array(''=>'main',
 		    'login'=>'login',
 		    'search'=>'search',

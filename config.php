@@ -13,6 +13,7 @@ $admin_hidden_email	= 'CHANGEME'; // email sent via the contact form
 $db_connect_str		= 'dbname=nhpatchdb host=localhost user=CHANGEME password=CHANGEME';
 
 $timestamp_format	= 'F d, Y H:i';
+$default_timezone	= 'UTC';
 
 $help_filename		= 'nhpatchdb_help.txt';
 
