@@ -984,9 +984,9 @@ function comment_add_form($id, $data, $editing = NULL)
 {
   global $comment_max_score, $comment_text_maxlen, $comment_name_maxlen;
 
-  if (($data['score'] == "-1") || ($data['score'] == -1)) unset($data['score']);
+  if (isset($data['score']) && (($data['score'] == "-1") || ($data['score'] == -1))) unset($data['score']);
 
-  if (!$editing && ($data['preview'] == 'on') && (strlen(trim($data['text'])) > 0)) {
+  if (!$editing && isset($data['preview']) && ($data['preview'] == 'on') && (strlen(trim($data['text'])) > 0)) {
     echo '<h3 class="title">Comment Preview</h3>';
     echo '<table class="commentshow">';
     comment_show_tablerow($data, $x, 0);

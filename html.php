@@ -15,7 +15,7 @@ function html_header($data = null)
   echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"';
   echo ' "http://www.w3.org/TR/html4/loose.dtd">';
 
-  echo '<html><head><title>'.(($data['title']) ? 'NHPatchDB : '.$data['title'] : 'NetHack Patch Database').'</title>';
+  echo '<html><head><title>'.((isset($data['title'])) ? 'NHPatchDB : '.$data['title'] : 'NetHack Patch Database').'</title>';
 
   echo '<link rel="icon" href="'.location_url('bilious.png').'">';
 
