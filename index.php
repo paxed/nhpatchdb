@@ -281,7 +281,7 @@ function mk_page_patchdel($id)
 function mk_page_update($id) /* user submits an update to another patch */
 {
     $mindata = patch_get_mindata($id);
-    $metadesc = str_htmlize_quotes($mindata['title']);
+    $metadesc = str_htmlize_quotes(isset($mindata['title']) ? $mindata['title'] : 'Unknown?');
   $title = 'Submit an update';
   page_header(array('title'=>$title, 'metadesc'=>'Submit an update to patch "'.$metadesc.'"'));
   echo '<h3 class="title">'.$title.'</h3>';
@@ -862,7 +862,7 @@ function nhquestion_validate(&$data)
   global $nethack_questions;
 
   $qid = $data['nhquestionid'];
-  $qanswer = $data['nhquestionanswer'];
+  $qanswer = (isset($data['nhquestionanswer']) ? $data['nhquestionanswer'] : NULL);
 
   unset($data['nhquestionid']);
   unset($data['nhquestionanswer']);
@@ -914,6 +914,8 @@ function comment_add_post($data)
 
     comment_data_trim($data);
 
+    $errstr = NULL;
+
     if (!($data['preview'] == 'on'))
       $errstr .= nhquestion_validate($data);
     if (!$errstr) {
@@ -934,7 +936,7 @@ function comment_add_post($data)
       }
     }
 
-    $remembername = $data['remembername'];
+    $remembername = (isset($data['remembername']) ? $data['remembername'] : NULL);
     unset($data['remembername']);
 
     if (!$errstr) {
@@ -991,7 +993,7 @@ function comment_add_form($id, $data, $editing = NULL)
     echo '<table class="commentshow">';
     comment_show_tablerow($data, $x, 0);
     echo '</table>';
-  } else if (!$data['quoted'] && !$editing) comment_data_clear($data);
+  } else if (!isset($data['quoted']) && !$editing) comment_data_clear($data);
 
   if ($editing) {
     echo '<h3 class="title" id="addcomment">Edit a comment</h3>';
