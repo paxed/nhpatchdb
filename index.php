@@ -1271,7 +1271,7 @@ function patch_orderby_str($data)
   }
 
   if ($rev) {
-    if (!$data['revsort']) $ret .= ' DESC';
+    if (!isset($data['revsort'])) $ret .= ' DESC';
     else unset($data['revsort']);
   }
 
