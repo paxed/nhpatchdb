@@ -190,8 +190,8 @@ function mk_page_show($id)
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_POST['preview'])) {
-      if ($_POST['remembername']) {
-	if ($_POST['username']) {
+      if (isset($_POST['remembername'])) {
+	if (isset($_POST['username'])) {
 	  mk_cookie('remembername', $_POST['username']);
 	}
       } else {
@@ -916,7 +916,7 @@ function comment_add_post($data)
 
     $errstr = NULL;
 
-    if (!($data['preview'] == 'on'))
+    if (!isset($data['preview']) || !($data['preview'] == 'on'))
       $errstr .= nhquestion_validate($data);
     if (!$errstr) {
       $data['added'] = date("Y-m-d H:i:s");
@@ -970,7 +970,7 @@ function comment_data_trim(&$data)
 {
   $data['patch'] = trim($data['patch']);
   $data['username'] = trim($data['username']);
-  $data['score'] = trim($data['score']);
+  $data['score'] = trim(isset($data['score']) ? $data['score'] : NULL);
   $data['text'] = trim($data['text']);
 }
 
