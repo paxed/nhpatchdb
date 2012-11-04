@@ -991,7 +991,7 @@ function comment_add_form($id, $data, $editing = NULL)
   if (!$editing && isset($data['preview']) && ($data['preview'] == 'on') && (strlen(trim($data['text'])) > 0)) {
     echo '<h3 class="title">Comment Preview</h3>';
     echo '<table class="commentshow">';
-    comment_show_tablerow($data, $x, 0);
+    comment_show_tablerow($data, 0, 0);
     echo '</table>';
   } else if (!isset($data['quoted']) && !$editing) comment_data_clear($data);
 
@@ -1628,7 +1628,9 @@ function comment_show_tablerow($data, $num = 0, $tabletype = 0)
 
     $trd = array('class'=>$bgc);
 
-    echo tablerowd(array((($data['score'] >= 0) ? $data['score'] : '&nbsp;'), '<a name="'.$data['id'].'">'.mk_text_viewable($data['username']).'</a>', date($timestamp_format,strtotime($data['added']))),
+    echo tablerowd(array(((isset($data['score']) && ($data['score'] >= 0)) ? $data['score'] : '&nbsp;'),
+			 '<a name="'.(isset($data['id']) ? $data['id'] : '').'">'.mk_text_viewable($data['username']).'</a>',
+			 date($timestamp_format,strtotime(isset($data['added']) ? $data['added'] : NULL))),
 		   array(array('class'=>'commentscore','rowspan'=>2), array('class'=>'commentuser'), array('class'=>'commentdate')),
 		   $trd);
 
