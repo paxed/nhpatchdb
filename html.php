@@ -89,9 +89,9 @@ function rating_table($percent, $ratings)
     return get_rating_table($percent, 1);
 }
 
-function safe_str($s)
+function safe_str($s,$newch='%')
 {
-  return preg_replace("/\;|:|\\'|\\\"|\,|\*|\\\/", "_", $s);
+  return preg_replace("/\;|:|\\'|\\\"|\,|\*|\\\/", $newch, $s);
 }
 
 function str_htmlize_quotes($str)
