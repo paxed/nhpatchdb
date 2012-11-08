@@ -744,7 +744,7 @@ function patch_add_post(&$data)
   unset($data['fsize']);
   unset($data['fdata']);
   // handle uploaded patch file
-  $filedata = $_FILES['file'];
+  $filedata = (isset($_FILES['file']) ? $_FILES['file'] : NULL);
   if (isset($filedata) && (isset($filedata['tmp_name'])) &&
       ($filedata['error'] == 0) && is_uploaded_file($filedata['tmp_name'])) {
     if (preg_match('/\.(dif|diff|patch|txt)$/', $filedata['name'])) {
@@ -769,7 +769,7 @@ function patch_add_post(&$data)
   //$data['xinfo'] = NULL; // No admin info for new submissions
   $data['queue'] = TRUE; // It's in the queue, waiting approval
 
-  if (($data['localdl'] == 'on') || ($data['localdl'] == 't'))
+  if (isset($data['localdl']) && (($data['localdl'] == 'on') || ($data['localdl'] == 't')))
     $data['localdl'] = 1;
   else
     $data['localdl'] = 0;
@@ -1583,7 +1583,7 @@ function patch_search_form($data)
 			  'Rating'=>'rating',
 			  'Add date'=>'added',
 			  'Change date'=>'changed'),
-		    $data['sort']);
+		    (isset($data['sort']) ? $data['sort'] : 0));
 
   echo '<label>'.get_input_postdata('checkbox','revsort', $data).'Reversed</label>';
 
