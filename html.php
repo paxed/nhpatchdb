@@ -96,7 +96,7 @@ function safe_str($s,$newch='%')
 
 function str_htmlize_quotes($str)
 {
-  $str = str_replace("\\\"", "&quot;", $str);
+  $str = preg_replace("/(\\\"|\")/", "&quot;", $str);
   $str = str_replace("\\\\", "\\", $str);
   $str = str_replace("\\'", "'", $str);
   $str = str_replace("<", "&lt;", $str);
