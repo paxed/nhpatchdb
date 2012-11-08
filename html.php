@@ -91,7 +91,7 @@ function rating_table($percent, $ratings)
 
 function safe_str($s)
 {
-  return preg_replace("/\;|:|\\\'|\\\\\"|\,|\*|\\\/", "_", $s);
+  return preg_replace("/\;|:|\\'|\\\"|\,|\*|\\\/", "_", $s);
 }
 
 function str_htmlize_quotes($str)
