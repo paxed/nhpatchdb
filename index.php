@@ -736,7 +736,7 @@ function patch_add_post(&$data)
 
   $data['added'] = $data['changed'] = date("Y-m-d H:i:s");
 
-  if ((strlen($data['dlurl']) > 1) && !preg_match('/^(http|ftp):\/\//', $data['dlurl'])) {
+  if ((strlen($data['dlurl']) > 1) && !preg_match('/^(https?|ftp):\/\//', $data['dlurl'])) {
     $data['dlurl'] = 'http://'.$data['dlurl'];
   }
 
