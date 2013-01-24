@@ -1110,8 +1110,14 @@ function patch_add_form($data, $edit = null)
   if (isset($data['patchref']))
     echo '<input type="hidden" name="patchref" value="'.$data['patchref'].'">';
 
-  if (auth_user() && isset($data['id']))
-    echo tablerowd(array('ID Number',$data['id']));
+  if (auth_user() && isset($data['id'])) {
+    if ($edit == 1) {
+      $trd = menulinkurl(phpself_querystr($data['id']), $data['id']);
+    } else {
+      $trd = $data['id'];
+    }
+    echo tablerowd(array('ID Number',$trd));
+  }
   echo tablerowd(array('Patch name',get_input_postdata('text', 'pname', $data, array('size'=>80, 'maxlength'=>80,'style'=>'width:90%;')),'required'));
   echo tablerowd(array('Version',get_input_postdata('text', 'ver', $data, array('size'=>10, 'maxlength'=>10,'style'=>'width:90%;'))));
   echo tablerowd(array('Author',get_input_postdata('text', 'author', $data, array('size'=>80, 'maxlength'=>80,'style'=>'width:90%;')),'required'));
