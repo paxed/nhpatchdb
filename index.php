@@ -1871,15 +1871,14 @@ function patch_show_tablerow($data, $num = 0, $tabletype = 0)
     }
 
     if (auth_user()) {
-      if ($data['fdata'] == $other['fdata']) {
-	$ld = 'Are the same';
-	$xld = '&nbsp;';
+      if (trim($data['fdata']) === trim($other['fdata'])) {
+	echo tablerowd(array('Diffs', 'Are the same'), null, $trd);
       } else {
 	$ld = make_link(phpself_querystr(array('viewdiff'=>$data['id'])), 'View').get_approx_size($data['fsize']);
 	$xld = make_link(phpself_querystr(array('viewdiff'=>$other['id'])), 'View').get_approx_size($other['fsize']);
+	echo tablerowd(array('Diffs', $ld), null, $trd);
+	echo tablerowd(array('&nbsp;', $xld), $org, $trd);
       }
-      echo tablerowd(array('Diffs', $ld), null, $trd);
-      echo tablerowd(array('&nbsp;', $xld), $org, $trd);
     }
 
     echo tablerowd(array('File name', $data['file']), null, $trd);
