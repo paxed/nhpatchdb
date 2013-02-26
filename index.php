@@ -1294,7 +1294,7 @@ function patch_browse($show_queued = NULL)
   $sqlq = 'SELECT * FROM patches';
   if ($show_queued && auth_user()) {
     $sqlq .= ' WHERE queue=TRUE';
-    if (!isset($_GET['sort'])) $_GET['sort'] = 'id';
+    if (!isset($_GET['sort'])) $_GET['sort'] = 'added';
   } else {
     $sqlq .= ' WHERE queue=FALSE';
   }
